@@ -1,0 +1,84 @@
+{% extends 'partidos/base.html' %}
+
+{% block title %}Editar Partido{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm">
+            <div class="card-header bg-warning text-dark">
+                <h4 class="card-title mb-0">
+                    <i class="fas fa-edit me-2"></i>
+                    Editar Partido
+                </h4>
+            </div>
+            <div class="card-body">
+                {% if error %}
+                <div class="alert alert-danger">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    {{ error }}
+                </div>
+                {% endif %}
+
+                <div class="alert alert-info mb-4">
+                    <h6 class="alert-heading">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Editando Partido ID: {{ partido.id_partido }}
+                    </h6>
+                </div>
+                
+                <form method="POST">
+                    {% csrf_token %}
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Equipo Local</label>
+                            <input type="text" name="equipo_local" class="form-control" 
+                                   value="{{ partido.equipo_local }}" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Equipo Visitante</label>
+                            <input type="text" name="equipo_visitante" class="form-control" 
+                                   value="{{ partido.equipo_visitante }}" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Fecha y Hora</label>
+                        <input type="datetime-local" name="fecha" class="form-control" 
+                               value="{{ partido.fecha|date:'Y-m-d' }}T{{ partido.fecha|date:'H:i' }}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Estadio</label>
+                        <input type="text" name="estadio" class="form-control" 
+                               value="{{ partido.estadio }}" required>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Goles Local</label>
+                            <input type="number" name="goles_local" class="form-control" 
+                                   value="{{ partido.goles_local }}" min="0">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Goles Visitante</label>
+                            <input type="number" name="goles_visitante" class="form-control" 
+                                   value="{{ partido.goles_visitante }}" min="0">
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{% url 'index' %}" class="btn btn-secondary me-md-2">
+                            <i class="fas fa-arrow-left me-1"></i>Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-warning">
+                            <i class="fas fa-save me-1"></i>Actualizar Partido
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

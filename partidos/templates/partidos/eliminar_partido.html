@@ -1,0 +1,68 @@
+{% extends 'partidos/base.html' %}
+
+{% block title %}Eliminar Partido{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm border-danger">
+            <div class="card-header bg-danger text-white">
+                <h4 class="card-title mb-0">
+                    <i class="fas fa-trash me-2"></i>Eliminar Partido
+                </h4>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-warning">
+                    <h5 class="alert-heading">
+                        <i class="fas fa-exclamation-triangle me-2"></i>¿Estás seguro de que quieres eliminar este partido?
+                    </h5>
+                </div>
+                <div class="card border-warning mb-4">
+                    <div class="card-body">
+                        <h6 class="card-title text-danger">
+                            <i class="fas fa-info-circle me-2"></i>Información del Partido
+                        </h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p class="mb-2"><strong>Equipo Local:</strong> {{ partido.equipo_local }}</p>
+                                <p class="mb-2"><strong>Equipo Visitante:</strong> {{ partido.equipo_visitante }}</p>
+                                <p class="mb-2"><strong>Fecha:</strong> {{ partido.fecha|date:"d/m/Y H:i" }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="mb-2"><strong>Estadio:</strong> {{ partido.estadio }}</p>
+                                <p class="mb-2"><strong>Resultado:</strong> <span class="badge bg-primary">{{ partido.goles_local }} - {{ partido.goles_visitante }}</span></p>
+                                <p class="mb-0"><strong>ID Partido:</strong> {{ partido.id_partido }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="alert alert-danger">
+                    <h6 class="alert-heading">
+                        <i class="fas fa-skull-crossbones me-2"></i>ADVERTENCIA
+                    </h6>
+                    <p class="mb-0">Esta acción <strong>NO SE PUEDE DESHACER</strong>. El partido será eliminado permanentemente.</p>
+                </div>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <a href="{% url 'index' %}" class="btn btn-secondary me-md-2">
+                        <i class="fas fa-times me-1"></i>Cancelar
+                    </a>
+                    <form method="POST" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger" onclick="return confirmDelete()">
+                            <i class="fas fa-trash me-1"></i>Sí, eliminar partido
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function confirmDelete() {
+    return confirm('⚠️ ¿ESTÁS ABSOLUTAMENTE SEGURO?\n\nEsta acción eliminará permanentemente el partido:\n{{ partido.equipo_local }} vs {{ partido.equipo_visitante }}\n\nEsta operación es IRREVERSIBLE.');
+}
+</script>
+{% endblock %}
